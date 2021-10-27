@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #4d839a;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.container{
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: 100px 1fr 100px;
+}
+
+header, footer{
+    background-color: #284c64;
+    border-bottom:7px solid #14354b;
+    color: #FFFFFF; 
+    display: grid;
+    place-items: center;
+}   
+
+footer{
+    border-bottom: none;
+    border-top: 7px solid #14354b;
+}
