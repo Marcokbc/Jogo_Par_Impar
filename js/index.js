@@ -22,30 +22,8 @@ let countPlacar = {
     player: parseInt(localStorage[JOGADORES.PLAYER]) || 0
 }
 
-
-// Funções de atualização do placar
-const atualizarElPlacar = (jogador) => {
-    elPlacar[jogador].innerHTML = countPlacar[jogador]
-}
-
-const atualizarCountPlacar = ({ vencedores }) => {
-    for (let vencedor of vencedores) {
-        countPlacar[vencedor]++
-        atualizarElPlacar(vencedor)
-    }
-}
-
-// Carregando os elementos de placar com os dados do local storage
-for (let jogador in JOGADORES) atualizarElPlacar(JOGADORES[jogador])
-
-const atualizarLocalStorage = () => {
-    for (let nomeJogador in JOGADORES) {
-        localStorage[JOGADORES[nomeJogador]] = countPlacar[JOGADORES[nomeJogador]]
-    }
-}
-
-// Definição do objeto atualizador do placar
-const createScoreUpdater = () => {
+// Subject -> Objeto que armazena funções e chama todas elas quando achar necessário
+const createSubject = () => {
     var observers = []
 
     function subscribe(observer) {
@@ -56,19 +34,65 @@ const createScoreUpdater = () => {
             observerFunction(data)
     }
 
-    function update(action) {
-        notifyAll(action)
-    }
-
     return {
         subscribe,
-        update
+        notifyAll
     }
 }
 
-const scoreUpdater = createScoreUpdater()
-scoreUpdater.subscribe(atualizarCountPlacar)
+//#region Score Updater
+
+// Atualizar Elemento placar
+const atualizarElPlacar = (jogadores) => {
+    for (let jogador of jogadores) {
+        elPlacar[jogador].innerHTML = countPlacar[jogador]
+    }
+}
+
+// Aumentar variável count placar
+const aumentarCountPlacar = ({jogador}) => {
+    countPlacar[jogador]++
+    atualizarElPlacar([jogador])
+}
+
+// Atualizar local storage com valores de countPlacar
+const atualizarLocalStorage = () => {
+    for (let nomeJogador in JOGADORES) {
+        localStorage[JOGADORES[nomeJogador]] = countPlacar[JOGADORES[nomeJogador]]
+    }
+}
+
+const scoreUpdater = createSubject()
+scoreUpdater.subscribe(aumentarCountPlacar)
 scoreUpdater.subscribe(atualizarLocalStorage)
+//#endregion
+
+//#region Score Resetter
+
+const resetPlacar = () => {
+    for (let jogador in countPlacar) {
+        countPlacar[jogador] = 0
+    }
+    atualizarElPlacar(Object.keys(countPlacar))
+}
+
+const resetLocalStorage = () => {
+    localStorage.clear()
+}
+
+const clearUserInput = () => {
+    inputUsu.value = null
+}
+
+const scoreResetter = createSubject()
+scoreResetter.subscribe(resetPlacar)
+scoreResetter.subscribe(clearUserInput)
+scoreResetter.subscribe(resetLocalStorage)
+//#endregion
+
+// Carregando os elementos de placar com os dados do local storage
+// Os dados do local storage são carregados na inicialização de countPlacar
+atualizarElPlacar(Object.values(JOGADORES))
 
 //evento responsavel pelo jogo em si
 btnJogar.addEventListener("click", function (e) {
@@ -77,27 +101,23 @@ btnJogar.addEventListener("click", function (e) {
     let numPlayer = inputUsu.value;
     if (numPlayer == "") {
         alert("Informe um Numero");
-
     } else {
-
         soma = numPlayer + numMaquina;
         resto = soma % 2;
         let vencedor = resto == 0 ? JOGADORES.PLAYER : JOGADORES.MAQUINA
 
-        let comando = {
-            vencedores: [vencedor]
+        let payload = {
+            jogador: vencedor
         }
 
-        scoreUpdater.update(comando);
+        scoreUpdater.notifyAll(payload);
+        clearUserInput()
     }
 });
 
 //Evento responsavel por reiniciar
 btnReiniciar.addEventListener("click", function (e) {
     e.preventDefault();
-    
-    localStorage.clear()
 
-    inputUsu.value = "";
-    result.innerHTML = "";
+    scoreResetter.notifyAll()
 });
