@@ -22,24 +22,6 @@ let countPlacar = {
     player: parseInt(localStorage[JOGADORES.PLAYER]) || 0
 }
 
-// Subject -> Objeto que armazena funções e chama todas elas quando achar necessário
-const createSubject = () => {
-    var observers = []
-
-    function subscribe(observer) {
-        observers.push(observer)
-    }
-    function notifyAll(data) {
-        for (let observerFunction of observers)
-            observerFunction(data)
-    }
-
-    return {
-        subscribe,
-        notifyAll
-    }
-}
-
 //#region Score Updater
 
 // Atualizar Elemento placar
@@ -50,7 +32,7 @@ const atualizarElPlacar = (jogadores) => {
 }
 
 // Aumentar variável count placar
-const aumentarCountPlacar = ({jogador}) => {
+const aumentarCountPlacar = (jogador) => {
     countPlacar[jogador]++
     atualizarElPlacar([jogador])
 }
@@ -62,9 +44,10 @@ const atualizarLocalStorage = () => {
     }
 }
 
-const scoreUpdater = createSubject()
-scoreUpdater.subscribe(aumentarCountPlacar)
-scoreUpdater.subscribe(atualizarLocalStorage)
+const atualizarPlacar = jogador => {
+    aumentarCountPlacar(jogador)
+    atualizarLocalStorage(jogador)
+}
 //#endregion
 
 //#region Score Resetter
@@ -84,10 +67,11 @@ const clearUserInput = () => {
     inputUsu.value = null
 }
 
-const scoreResetter = createSubject()
-scoreResetter.subscribe(resetPlacar)
-scoreResetter.subscribe(clearUserInput)
-scoreResetter.subscribe(resetLocalStorage)
+const limparPlacar = () => {
+    resetPlacar()
+    resetLocalStorage()
+    clearUserInput()
+}
 //#endregion
 
 // Carregando os elementos de placar com os dados do local storage
@@ -105,12 +89,8 @@ btnJogar.addEventListener("click", function (e) {
         soma = numPlayer + numMaquina;
         resto = soma % 2;
         let vencedor = resto == 0 ? JOGADORES.PLAYER : JOGADORES.MAQUINA
-
-        let payload = {
-            jogador: vencedor
-        }
-
-        scoreUpdater.notifyAll(payload);
+        
+        atualizarPlacar(vencedor)
         clearUserInput()
     }
 });
@@ -119,5 +99,5 @@ btnJogar.addEventListener("click", function (e) {
 btnReiniciar.addEventListener("click", function (e) {
     e.preventDefault();
 
-    scoreResetter.notifyAll()
+    limparPlacar()
 });
