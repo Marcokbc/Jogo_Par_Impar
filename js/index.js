@@ -12,6 +12,7 @@ let elPlacar = {
 let btnJogar = document.querySelector("#btnJogar");
 let result = document.querySelector("#result");
 let btnReiniciar = document.querySelector("#btnReiniciar");
+let campoNumMaquina = document.querySelector('#campoNumMaquina');
 
 //Declara variaveis a serem usadas depois
 let numMaquina = null;
@@ -23,6 +24,10 @@ let countPlacar = {
 }
 
 //#region Score Updater
+
+const mostrarNumMaquina = (numMaquina) => {
+    campoNumMaquina.innerHTML = 'O numero da maquina foi: ' + numMaquina;
+}
 
 // Atualizar Elemento placar
 const atualizarElPlacar = (jogadores) => {
@@ -63,6 +68,10 @@ const resetLocalStorage = () => {
     localStorage.clear()
 }
 
+const resetNumMaquina = () => {
+    campoNumMaquina.innerHTML = '';
+}
+
 const clearUserInput = () => {
     inputUsu.value = null
 }
@@ -71,6 +80,7 @@ const limparPlacar = () => {
     resetPlacar()
     resetLocalStorage()
     clearUserInput()
+    resetNumMaquina()
 }
 //#endregion
 
@@ -82,14 +92,16 @@ atualizarElPlacar(Object.values(JOGADORES))
 btnJogar.addEventListener("click", function (e) {
     e.preventDefault();
     numMaquina = parseInt(Math.random() * 10);
-    let numPlayer = inputUsu.value;
+    let numPlayer = parseInt(inputUsu.value);
     if (numPlayer == "") {
         alert("Informe um Numero");
     } else {
         soma = numPlayer + numMaquina;
+        console.log(soma);
         resto = soma % 2;
         let vencedor = resto == 0 ? JOGADORES.PLAYER : JOGADORES.MAQUINA
         
+        mostrarNumMaquina(numMaquina);
         atualizarPlacar(vencedor)
         clearUserInput()
     }
