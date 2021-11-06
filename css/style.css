@@ -28,3 +28,42 @@ footer{
     border-bottom: none;
     border-top: 7px solid #14354b;
 }
+
+main{
+    text-align: center;
+    font-size: 1.3em;
+    line-height: 1.5em;
+    max-width: 640px;
+    margin: 50px auto;
+    background: #284c64;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#btnJogar{
+    border-radius: 0;
+    font-family: inherit;
+    color: ivory;
+    font-size: 15px;
+    background-color: #4d839a;
+    width: 60px;
+}
+
+#btnJogar,#btnReiniciar:hover{
+    cursor: pointer;
+}
+
+#btnReiniciar{
+    width: 320px;
+    height: 30px;
+    border-radius: 0;
+    font-family: inherit;
+    background-color: #4d839a;
+    color: ivory;
+    font-size: 15px;
+}
+
+#btnReiniciar:hover{
+    background-color: #1a1ca0;
+}
+
