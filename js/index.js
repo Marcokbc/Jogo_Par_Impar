@@ -93,11 +93,10 @@ btnJogar.addEventListener("click", function (e) {
     e.preventDefault();
     numMaquina = parseInt(Math.random() * 10);
     let numPlayer = parseInt(inputUsu.value);
-    if (numPlayer == "") {
+    if (numPlayer === "") {
         alert("Informe um Numero");
     } else {
         soma = numPlayer + numMaquina;
-        console.log(soma);
         resto = soma % 2;
         let vencedor = resto == 0 ? JOGADORES.PLAYER : JOGADORES.MAQUINA
         
