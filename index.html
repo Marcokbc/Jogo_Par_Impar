@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@1,300&display=swap" rel="stylesheet">
-    <title>Eu cago e tu limpa</title>
+    <title>Jogo</title>
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
@@ -18,12 +18,16 @@
         <main id="jogo">
             <div class="player" id="jogador">
                 <form>
-                    <label> Informe um numero de 0 a 10:</label>
+                    <label class="labelForm"> Informe um numero de 0 a 10:</label>
                     <input type="number" id="numUsu" min="0" max="10">
                     <button id="btnJogar" type="button">Jogar</button>
                 </form>
                 <div class="vitorias">
                     <h4>Player: <span id="totalPlayer">0</span></h4>
+                </div>
+                <div class="machine" id="maquina">
+                    <h4>Machine:<span id="totalMachine">0</span></h4>
+                    <h4 id="campoNumMaquina"></h4>
                 </div>
             </div>
             <div class="reiniciar">
@@ -31,10 +35,6 @@
                 <h4>Depois de informar clique em jogar.</h4>
                 <button id="btnReiniciar">Reiniciar Rodada</button>
                 <h4 id="result"></h4>
-            </div>
-            <div class="machine" id="maquina">
-                <div></div>
-                <h4>Machine:<span id="totalMachine">0</span></h4>
             </div>
         </main>
         <footer>

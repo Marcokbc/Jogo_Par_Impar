@@ -1,0 +1,69 @@
+*{
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #4d839a;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.container{
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: 100px 1fr 100px;
+}
+
+header, footer{
+    background-color: #284c64;
+    border-bottom:7px solid #14354b;
+    color: #FFFFFF; 
+    display: grid;
+    place-items: center;
+}   
+
+footer{
+    border-bottom: none;
+    border-top: 7px solid #14354b;
+}
+
+main{
+    text-align: center;
+    font-size: 1.3em;
+    line-height: 1.5em;
+    max-width: 640px;
+    margin: 50px auto;
+    background: #284c64;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#btnJogar{
+    border-radius: 0;
+    font-family: inherit;
+    color: ivory;
+    font-size: 15px;
+    background-color: #4d839a;
+    width: 60px;
+}
+
+#btnJogar,#btnReiniciar:hover{
+    cursor: pointer;
+}
+
+#btnReiniciar{
+    width: 320px;
+    height: 30px;
+    border-radius: 0;
+    font-family: inherit;
+    background-color: #4d839a;
+    color: ivory;
+    font-size: 15px;
+}
+
+#btnReiniciar:hover{
+    background-color: #1a1ca0;
+}
+
